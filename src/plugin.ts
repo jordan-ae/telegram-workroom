@@ -9,7 +9,7 @@ import { handleIssueClosed } from "./handlers/close_channel";
 /**
  * How a worker executes the plugin.
  */
-export async function plugin(inputs: PluginInputs, env: Env) {
+export async function telegramWorkRoom(inputs: PluginInputs, env: Env) {
   const octokit = new Octokit({ auth: inputs.authToken });
   const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_KEY);
 

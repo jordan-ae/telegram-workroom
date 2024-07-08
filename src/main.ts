@@ -3,7 +3,7 @@ import * as github from "@actions/github";
 import { Octokit } from "@octokit/rest";
 import { Value } from "@sinclair/typebox/build/cjs/value";
 import { envSchema, pluginSettingsSchema, PluginInputs, pluginSettingsValidator } from "./types";
-import { plugin } from "./plugin";
+import { telegramWorkRoom } from "./plugin";
 
 /**
  * How a GitHub action executes the plugin.
@@ -27,7 +27,7 @@ export async function run() {
     ref: payload.ref,
   };
 
-  await plugin(inputs, env);
+  await telegramWorkRoom(inputs, env);
 
   return returnDataToKernel(inputs.authToken, inputs.stateId, {});
 }
