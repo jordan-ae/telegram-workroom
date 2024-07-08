@@ -1,23 +1,28 @@
-name: Telegram WorkRoom
+name: "Telegram Workroom"
 
 on:
   issues:
     types: [opened, closed]
 
 jobs:
-  telegram:
+  compute:
+    name: "plugin name"
     runs-on: ubuntu-latest
+    permissions: write-all
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: setup node
+        uses: actions/setup-node@v4
         with:
-          node-version: "14"
+          node-version: "20.10.0"
 
-      - name: Install dependencies
-        run: npm install
+      - name: install dependencies
+        run: yarn
 
       - name: Run Telegram Bot Script
         run: npx tsx ./src/main.ts
