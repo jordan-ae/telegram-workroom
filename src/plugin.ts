@@ -3,6 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import { createAdapters } from "./adapters";
 import { Env, PluginInputs } from "./types";
 import { Context } from "./types";
+import { handleIssueOpened } from "./handlers/create_channel";
+import { handleIssueClosed } from "./handlers/close_channel";
 
 /**
  * How a worker executes the plugin.
@@ -39,8 +41,10 @@ export async function plugin(inputs: PluginInputs, env: Env) {
 
   context.adapters = createAdapters(supabase, context);
 
-  if (context.eventName === "issue_comment.created") {
-    // do something
+  if (context.eventName === "issues.opened") {
+    await handleIssueOpened(context);
+  } else if (context.eventName === "issues.closed") {
+    await handleIssueClosed(context);
   } else {
     context.logger.error(`Unsupported event: ${context.eventName}`);
   }
